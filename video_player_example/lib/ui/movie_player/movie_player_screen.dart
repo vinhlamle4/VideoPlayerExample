@@ -8,7 +8,6 @@ import 'package:video_player_example/extension/padding.dart';
 import 'package:video_player_example/hook/use_video_player_controller.dart';
 import 'package:video_player_example/ui/media_controller/media_controller_screen.dart';
 import 'package:video_player_example/ui/media_controller/media_controller_view_model.dart';
-import 'package:video_player_example/utils/app_theme.dart';
 import 'package:video_player_example/utils/utils.dart';
 
 class MoviePlayerScreen extends HookConsumerWidget {
@@ -18,7 +17,8 @@ class MoviePlayerScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appColors = ref.watch(appThemeProvider).appColors;
+    //final appColors = ref.watch(appThemeProvider).appColors;
+    final appColors = Theme.of(context).colorScheme;
     final viewModel = ref.read(mediaControllerViewModelProvider);
     final isVideoInitialized = ref.watch(mediaControllerViewModelProvider
         .select((value) => value.isVideoPlayerInitialize));
@@ -62,12 +62,12 @@ class MoviePlayerScreen extends HookConsumerWidget {
                         const MediaControllerScreen(),
                       ] else ...[
                         Container(
-                          color: appColors.videoPlayerBackground,
+                          color: appColors.primary,
                           child: Center(
                             child: CircularProgressIndicator(
-                              backgroundColor: appColors.progressBuffered,
+                              backgroundColor: appColors.background,
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                  appColors.accent),
+                                  appColors.tertiary),
                             ),
                           ),
                         ),

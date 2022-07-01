@@ -5,8 +5,6 @@ import 'package:video_player/video_player.dart';
 import 'package:video_player_example/Utils/layout_size.dart';
 import 'package:video_player_example/Utils/utils.dart';
 import 'package:video_player_example/extension/padding.dart';
-import 'package:video_player_example/utils/app_color.dart';
-import 'package:video_player_example/utils/app_theme.dart';
 
 import 'item/media_bottom_sheet_item.dart';
 import 'media_controller_view_model.dart';
@@ -17,7 +15,7 @@ class MediaControllerScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(mediaControllerViewModelProvider);
-    final appColors = ref.watch(appThemeProvider).appColors;
+    final themeColor = Theme.of(context).colorScheme;
 
     return WillPopScope(
       onWillPop: () async {
@@ -41,12 +39,14 @@ class MediaControllerScreen extends HookConsumerWidget {
         viewModel,
         child: Stack(
           children: [
+            Container(color: Colors.black54),
             Center(
                 child: _buildIconButton(
                     viewModel.isPlaying()
                         ? Icons.pause_circle_outline
                         : Icons.play_circle_outline,
                     () => _onPlayButtonTap(viewModel),
+                    themeColor,
                     LayoutSize.sizeIcon80)),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -54,17 +54,17 @@ class MediaControllerScreen extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildLeftPlayerInformation(viewModel, appColors),
-                    _buildRightPlayerInformation(context, viewModel, appColors)
+                    _buildLeftPlayerInformation(viewModel, themeColor),
+                    _buildRightPlayerInformation(context, viewModel, themeColor)
                   ],
                 ).paddingAll(LayoutSize.sizePadding8),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(LayoutSize.borderRadius8),
                   child: VideoProgressIndicator(viewModel.controller,
                       colors: VideoProgressColors(
-                        backgroundColor: appColors.progressBackground,
-                        bufferedColor: appColors.progressBuffered,
-                        playedColor: appColors.progressPlayed,
+                        backgroundColor: themeColor.onTertiary,
+                        bufferedColor: themeColor.secondary.withOpacity(0.6),
+                        playedColor: themeColor.primary,
                       ),
                       allowScrubbing: true,
                       padding: const EdgeInsets.all(0)),
@@ -98,11 +98,14 @@ class MediaControllerScreen extends HookConsumerWidget {
 
   //region Left player information
   Widget _buildLeftPlayerInformation(
-      MediaControllerViewModel viewModel, AppColors appColors) {
+      MediaControllerViewModel viewModel, ColorScheme themeColor) {
     return Row(
       children: [
-        Icon(viewModel.isPlaying() ? Icons.pause : Icons.play_arrow,
-            size: LayoutSize.sizeIcon16),
+        Icon(
+          viewModel.isPlaying() ? Icons.pause : Icons.play_arrow,
+          size: LayoutSize.sizeIcon16,
+          color: themeColor.onPrimary,
+        ),
         const SizedBox(width: LayoutSize.sizeBox8),
         ValueListenableBuilder(
           valueListenable: viewModel.controller,
@@ -110,40 +113,48 @@ class MediaControllerScreen extends HookConsumerWidget {
             final position = Utils.convertDurationToTime(value.position);
             final duration = Utils.convertDurationToTime(value.duration);
             return Text('$position / $duration',
-                style: TextStyle(color: appColors.mediaText));
+                style: TextStyle(color: themeColor.onPrimary));
           },
         ),
       ],
     );
   }
+
   //endregion
 
   //region Right player information
   Widget _buildRightPlayerInformation(BuildContext context,
-      MediaControllerViewModel viewModel, AppColors appColors) {
+      MediaControllerViewModel viewModel, ColorScheme themeColor) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         _buildIconButton(
             viewModel.isMute() ? Icons.volume_off_outlined : Icons.volume_up,
-            () => _onVolumeTap(viewModel)),
+            () => _onVolumeTap(viewModel),
+            themeColor),
         const SizedBox(width: LayoutSize.sizeBox28),
         _buildIconButton(Icons.crop_free_outlined,
-            () => _onFullScreenTap(context, viewModel, appColors)),
+            () => _onFullScreenTap(context, viewModel, themeColor), themeColor),
         const SizedBox(width: LayoutSize.sizeBox24),
-        _buildIconButton(Icons.more_vert, () => _onMoreVertTap(context)),
+        _buildIconButton(
+            Icons.more_vert, () => _onMoreVertTap(context), themeColor),
       ],
     );
   }
 
-  Widget _buildIconButton(IconData icon, VoidCallback? onTap,
+  Widget _buildIconButton(
+      IconData icon, VoidCallback? onTap, ColorScheme colorScheme,
       [double? iconSize]) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         //splashColor: Colors.black.withOpacity(0.2),
         onTap: onTap,
-        child: Icon(icon, size: iconSize),
+        child: Icon(
+          icon,
+          size: iconSize,
+          color: colorScheme.onPrimary,
+        ),
       ),
     );
   }
@@ -160,11 +171,14 @@ class MediaControllerScreen extends HookConsumerWidget {
   }
 
   //region Toggle full screen mode
-  _onFullScreenTap(BuildContext context, MediaControllerViewModel viewModel,
-      AppColors appColors) {
+  _onFullScreenTap(
+    BuildContext context,
+    MediaControllerViewModel viewModel,
+    ColorScheme themeColor,
+  ) {
     viewModel.setFullScreenMode();
     if (viewModel.isFullScreen) {
-      _pushToFullScreen(context, viewModel.controller, appColors);
+      _pushToFullScreen(context, viewModel.controller, themeColor);
     } else {
       SystemChrome.setEnabledSystemUIMode(
         SystemUiMode.manual,
@@ -180,8 +194,11 @@ class MediaControllerScreen extends HookConsumerWidget {
     }
   }
 
-  _pushToFullScreen(BuildContext context, VideoPlayerController controller,
-      AppColors appColors) async {
+  _pushToFullScreen(
+    BuildContext context,
+    VideoPlayerController controller,
+    ColorScheme themeColor,
+  ) async {
     _onEnterFullScreen(controller);
 
     final route = PageRouteBuilder<void>(
@@ -197,7 +214,7 @@ class MediaControllerScreen extends HookConsumerWidget {
                     aspectRatio: controller.value.aspectRatio,
                     child: Stack(children: [
                       Container(
-                        color: appColors.videoPlayerBackground,
+                        color: themeColor.primary,
                       ),
                       VideoPlayer(controller),
                       const MediaControllerScreen(),

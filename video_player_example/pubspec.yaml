@@ -41,8 +41,11 @@ dependencies:
   # For video
   video_player: ^2.2.18
 
-  #For theme
+  # For theme
   google_fonts: ^2.3.1
+
+  # Check network connection
+  connectivity_plus: ^2.3.4
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_player_example/Utils/font_size.dart';
@@ -9,7 +7,6 @@ import 'package:video_player_example/data/model/movie.dart';
 import 'package:video_player_example/extension/padding.dart';
 import 'package:video_player_example/ui/movie_list/movie_list_view_model.dart';
 import 'package:video_player_example/ui/movie_player/movie_player_screen.dart';
-import 'package:video_player_example/ui/setting/setting_page.dart';
 import 'package:video_player_example/utils/app_theme.dart';
 
 class MovieListScreen extends HookConsumerWidget {
@@ -27,17 +24,7 @@ class MovieListScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Movie List'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingPage()),
-                );
-              },
-              icon: const Icon(Icons.settings_outlined)),
-        ],
+        title: const Text('Home'),
       ),
       body: SafeArea(
         child: viewModel.asyncMovie.when(
@@ -47,7 +34,7 @@ class MovieListScreen extends HookConsumerWidget {
           loading: () {
             return Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(appColors.accent),
+                valueColor: AlwaysStoppedAnimation<Color>(appColors.secondary),
               ),
             );
           },
@@ -67,11 +54,19 @@ class MovieListScreen extends HookConsumerWidget {
       itemCount: movies.length,
       itemBuilder: (context, index) {
         return Stack(children: [
-          Column(
-            children: [
-              _buildImage(movies[index].thumb,
-                  movies[index].title, context),
-            ],
+          Card(
+
+            borderOnForeground: true,
+            semanticContainer: true,
+            elevation: 50,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(LayoutSize.sizePadding16)
+            ),
+            child: Column(
+              children: [
+                _buildImage(movies[index].thumb, movies[index].title, context),
+              ],
+            ).paddingAll(LayoutSize.sizePadding16),
           ).paddingAll(LayoutSize.sizePadding16),
           Positioned.fill(
             child: Material(

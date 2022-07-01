@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:video_player_example/utils/new_app_colors.dart';
 
-import 'app_color.dart';
-
-final appThemeModeProvider = StateNotifierProvider<StateController<ThemeMode>, ThemeMode>(
-      (ref) => StateController(ThemeMode.system),
+final appThemeModeProvider =
+    StateNotifierProvider<StateController<ThemeMode>, ThemeMode>(
+  (ref) => StateController(ThemeMode.system),
 );
 
 final appThemeProvider = Provider<AppTheme>(
-      (ref) {
+  (ref) {
     final mode = ref.watch(appThemeModeProvider);
     switch (mode) {
       case ThemeMode.dark:
@@ -24,7 +24,7 @@ final appThemeProvider = Provider<AppTheme>(
 class AppTheme {
   final ThemeMode mode;
   final ThemeData data;
-  final AppColors appColors;
+  final NewAppColors appColors;
 
   AppTheme({
     required this.mode,
@@ -34,14 +34,14 @@ class AppTheme {
 
   factory AppTheme.light() {
     const mode = ThemeMode.light;
-    final appColors = AppColors.light();
+    final appColors = NewAppColors.light();
     final themeData = ThemeData.light().copyWith(
       brightness: Brightness.light,
       appBarTheme: AppBarTheme(color: appColors.secondary),
       scaffoldBackgroundColor: appColors.primary,
-      iconTheme: IconThemeData(color: appColors.icon),
+      iconTheme: IconThemeData(color: appColors.tertiary),
       textTheme: GoogleFonts.notoSansTextTheme(ThemeData.light().textTheme),
-      splashColor: appColors.splash,
+      splashColor: appColors.surface,
     );
     return AppTheme(
       mode: mode,
@@ -52,14 +52,14 @@ class AppTheme {
 
   factory AppTheme.dark() {
     const mode = ThemeMode.dark;
-    final appColors = AppColors.dark();
+    final appColors = NewAppColors.dark();
     final themeData = ThemeData.dark().copyWith(
       brightness: Brightness.dark,
       appBarTheme: AppBarTheme(color: appColors.secondary),
       scaffoldBackgroundColor: appColors.primary,
-      iconTheme: IconThemeData(color: appColors.icon),
+      iconTheme: IconThemeData(color: appColors.tertiary),
       textTheme: GoogleFonts.notoSansTextTheme(ThemeData.dark().textTheme),
-      splashColor: appColors.splash,
+      splashColor: appColors.surface,
     );
     return AppTheme(
       mode: mode,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_player_example/utils/app_theme.dart';
 
-final settingViewModelProvider = ChangeNotifierProvider((ref) => SettingViewModel(ref.read));
+final settingViewModelProvider = ChangeNotifierProvider.autoDispose((ref) => SettingViewModel(ref.read));
 
 class SettingViewModel extends ChangeNotifier {
   final Reader _reader;

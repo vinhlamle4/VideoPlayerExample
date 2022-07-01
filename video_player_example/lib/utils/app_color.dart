@@ -13,11 +13,12 @@ class AppColors {
   final Color progressPlayed;
   final Color splash;
   final Color divider;
+  final Color selectedBottomBarItem;
 
   const AppColors({
     required this.primary,
-    required this.accent,
     required this.secondary,
+    required this.accent,
     required this.icon,
     required this.text,
     required this.mediaText,
@@ -27,6 +28,7 @@ class AppColors {
     required this.progressPlayed,
     required this.splash,
     required this.divider,
+    required this.selectedBottomBarItem,
   });
 
   factory AppColors.light() {
@@ -43,6 +45,7 @@ class AppColors {
       progressPlayed: Colors.white,
       splash: Colors.black.withOpacity(0.3),
       divider: Colors.black,
+      selectedBottomBarItem: Colors.deepOrangeAccent,
     );
   }
 
@@ -60,6 +63,7 @@ class AppColors {
       progressPlayed: Colors.white,
       splash: Colors.white.withOpacity(0.3),
       divider: Colors.white,
+      selectedBottomBarItem: Colors.deepOrangeAccent,
     );
   }
 }

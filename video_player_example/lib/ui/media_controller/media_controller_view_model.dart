@@ -49,6 +49,7 @@ class MediaControllerViewModel extends ChangeNotifier {
       _controller.pause();
       opacityLevel = 1;
     } else {
+      debugPrint('VIDEO: ${_controller.value.isInitialized}');
       _controller.play();
       _autoHideMediaController();
     }
