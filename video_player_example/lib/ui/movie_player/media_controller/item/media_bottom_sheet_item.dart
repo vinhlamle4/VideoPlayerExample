@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_player_example/Utils/utils.dart';
-import 'package:video_player_example/ui/media_controller/media_controller_view_model.dart';
+import 'package:video_player_example/ui/movie_player/media_controller/media_controller_view_model.dart';
+
 
 import 'play_back_speed_item.dart';
 
 
 class MediaBottomSheetItem extends HookConsumerWidget {
-  const MediaBottomSheetItem({Key? key}) : super(key: key);
+  const MediaBottomSheetItem({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(mediaControllerViewModelProvider);
+    final viewModel = ref.watch(mediaControllerProvider);
     final controller = viewModel.controller;
 
     return ListView(
