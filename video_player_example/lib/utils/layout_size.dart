@@ -1,5 +1,7 @@
 class LayoutSize {
   //------- Padding ----------
+  static const double sizePadding2 = 2;
+
   static const double sizePadding4 = 4;
 
   static const double sizePadding8 = 8;

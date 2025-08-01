@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_player/video_player.dart';
 
-final mediaControllerViewModelProvider = ChangeNotifierProvider.autoDispose((_) => MediaControllerViewModel());
+final mediaControllerProvider = ChangeNotifierProvider.autoDispose((_) => MediaControllerViewModel());
 
 class MediaControllerViewModel extends ChangeNotifier {
 
@@ -41,6 +41,18 @@ class MediaControllerViewModel extends ChangeNotifier {
       _autoHideMediaController();
     }
     notifyListeners();
+  }
+
+  replay10s() {
+    final currentPosition = _controller.value.position;
+
+    _controller.seekTo(currentPosition - Duration(seconds: 10));
+  }
+
+  forward10s() {
+    final currentPosition = _controller.value.position;
+
+    _controller.seekTo(currentPosition + Duration(seconds: 10));
   }
 
   playAndPauseVideo() {

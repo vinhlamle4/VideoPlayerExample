@@ -6,7 +6,7 @@ import 'package:video_player_example/ui/setting/setting_view_model.dart';
 import 'package:video_player_example/utils/app_theme.dart';
 
 class SettingPage extends HookConsumerWidget {
-  const SettingPage({Key? key}) : super(key: key);
+  const SettingPage({super.key});
 
 
   @override
@@ -14,7 +14,7 @@ class SettingPage extends HookConsumerWidget {
     final theme = ref.watch(appThemeProvider);
     final viewModel = ref.watch(settingViewModelProvider);
 
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       viewModel.getSystemThemeMode(MediaQuery.of(context).platformBrightness);
     });
 

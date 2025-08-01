@@ -41,7 +41,7 @@ class AppColors {
       progressBackground: Colors.white24,
       progressBuffered: Colors.white38,
       progressPlayed: Colors.white,
-      splash: Colors.black.withOpacity(0.3),
+      splash: Colors.black.withValues(alpha: 0.3),
       divider: Colors.black,
     );
   }
@@ -58,7 +58,7 @@ class AppColors {
       progressBackground: Colors.white24,
       progressBuffered: Colors.white38,
       progressPlayed: Colors.white,
-      splash: Colors.white.withOpacity(0.3),
+      splash: Colors.white.withValues(alpha: 0.3),
       divider: Colors.white,
     );
   }
