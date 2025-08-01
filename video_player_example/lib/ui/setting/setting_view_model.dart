@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_player_example/utils/app_theme.dart';
 
-final settingViewModelProvider = ChangeNotifierProvider((ref) => SettingViewModel(ref.read));
+final settingViewModelProvider = ChangeNotifierProvider((ref) => SettingViewModel(ref));
 
 class SettingViewModel extends ChangeNotifier {
-  final Reader _reader;
+  SettingViewModel(this._ref);
+  final Ref _ref;
 
-  SettingViewModel(this._reader);
 
-  late StateController<ThemeMode> themeMode = _reader(appThemeModeProvider.notifier);
-  late AppTheme theme = _reader(appThemeProvider);
+  late StateController<ThemeMode> themeMode = _ref.read(appThemeModeProvider.notifier);
+  late AppTheme theme = _ref.read(appThemeProvider);
 
   bool _needCheckSystemTheme = true;
   bool get needCheckSystemTheme => _needCheckSystemTheme;

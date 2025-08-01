@@ -28,8 +28,8 @@ class _VideoPlayerControllerHook extends Hook<VideoPlayerController> {
     required this.autoPlay,
     required this.looping,
     required this.onInitialCompleted,
-    List<Object?>? keys,
-  }) : super(keys: keys);
+    super.keys,
+  });
 
   final String url;
   final String? package;
@@ -45,7 +45,7 @@ class _VideoPlayerControllerHook extends Hook<VideoPlayerController> {
 class _VideoPlayerControllerHookState
     extends HookState<VideoPlayerController, _VideoPlayerControllerHook> {
   late final VideoPlayerController _controller =
-      VideoPlayerController.network(hook.url);
+      VideoPlayerController.networkUrl(Uri.parse(hook.url));
 
   @override
   void initHook() {
